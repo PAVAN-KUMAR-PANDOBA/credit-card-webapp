@@ -1,0 +1,68 @@
+<div class="card h-100 shadow-sm">
+  <div class="card-header d-flex justify-content-between align-items-center">
+    <h6 class="mb-0">{{card.cardName}}</h6>
+    <span class="badge" [ngClass]="getCategoryClass(card.category)">
+      {{card.category}}
+    </span>
+  </div>
+  
+  <div class="card-body">
+    <!-- Card Number -->
+    <div class="mb-3">
+      <small class="text-muted">Card Number:</small>
+      <div class="d-flex justify-content-between align-items-center">
+        <code>{{formatCardNumber(card.cardNumber)}}</code>
+        <button class="btn btn-sm btn-outline-secondary" 
+                title="Copy card number"
+                (click)="copyText(card.cardNumber)">
+          <i class="fas fa-copy"></i>
+        </button>
+      </div>
+    </div>
+
+    <!-- Expiry & CVV -->
+    <div class="row mb-3">
+      <div class="col-6">
+        <small class="text-muted">Expiry:</small>
+        <p class="mb-0 fw-bold">{{card.expiryDate}}</p>
+      </div>
+      <div class="col-6">
+        <small class="text-muted">CVV:</small>
+        <div class="d-flex align-items-center">
+          <span class="fw-bold me-2">
+            {{showCVV ? card.cvv : '***'}}
+          </span>
+          <button class="btn btn-sm btn-outline-info" 
+                  title="Toggle CVV visibility"
+                  (click)="toggleCVV()">
+            <i class="fas" [ngClass]="showCVV ? 'fa-eye-slash' : 'fa-eye'"></i>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Owner Info -->
+    <div class="mb-3">
+      <small class="text-muted">Owner:</small>
+      <p class="mb-1 fw-bold">{{card.ownerName}}</p>
+      <small *ngIf="card.ownerPhone" class="text-muted">
+        <i class="fas fa-phone me-1"></i> {{card.ownerPhone}}
+      </small>
+    </div>
+
+    <!-- WhatsApp Button -->
+    <div *ngIf="card.whatsappLink" class="mb-3">
+      <a [href]="card.whatsappLink" 
+         class="btn btn-success w-100"
+         target="_blank">
+        <i class="fab fa-whatsapp me-1"></i> Request CVV Approval
+      </a>
+    </div>
+  </div>
+
+  <div class="card-footer">
+    <button class="btn btn-danger btn-sm" (click)="onDelete()">
+      <i class="fas fa-trash me-1"></i> Remove
+    </button>
+  </div>
+</div>

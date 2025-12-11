@@ -1,0 +1,45 @@
+<div class="card shadow">
+  <div class="card-header bg-success text-white">
+    <h5 class="mb-0">
+      <i class="fas fa-credit-card me-2"></i> Pooled Cards
+      <span class="badge bg-light text-dark ms-2">{{filteredCards.length}} cards</span>
+    </h5>
+  </div>
+  
+  <div class="card-body">
+    
+    <!-- Search and Filter -->
+    <div class="row mb-4">
+      <div class="col-md-6">
+        <input type="text" 
+               class="form-control" 
+               placeholder="Search cards..."
+               [(ngModel)]="searchText"
+               (input)="filterCards()">
+      </div>
+      <div class="col-md-6">
+        <select class="form-select" aria-label="Filter cards by category" [(ngModel)]="selectedCategory" (change)="filterCards()">
+          <option *ngFor="let cat of categories" [value]="cat">
+            {{cat}} <span *ngIf="cat !== 'All'">({{getCategoryCount(cat)}})</span>
+          </option>
+        </select>
+      </div>
+    </div>
+
+    <!-- Cards Grid -->
+    <div *ngIf="filteredCards.length === 0" class="text-center py-5">
+      <i class="fas fa-credit-card fa-4x text-muted mb-3"></i>
+      <p class="text-muted">No cards found. Add some cards!</p>
+    </div>
+
+    <div class="row">
+      <div class="col-md-6 col-lg-4 mb-3" *ngFor="let card of filteredCards">
+        <app-card-item 
+          [card]="card"
+          (delete)="onDeleteCard($event)">
+        </app-card-item>
+      </div>
+    </div>
+
+  </div>
+</div>

@@ -1,0 +1,141 @@
+<div class="card shadow mb-4">
+  <div class="card-header bg-primary text-white">
+    <h5 class="mb-0">
+      <i class="fas fa-plus-circle me-2"></i> Add New Card to Pool
+    </h5>
+  </div>
+  
+  <div class="card-body">
+    <!-- Success/Error Message -->
+    <div *ngIf="message" 
+         class="alert" 
+         [ngClass]="isError ? 'alert-danger' : 'alert-success'">
+      {{message}}
+    </div>
+
+    <!-- Add Card Form -->
+    <form (ngSubmit)="onSubmit()">
+      
+      <!-- Card Name -->
+      <div class="mb-3">
+        <label class="form-label">Card Name *</label>
+        <input type="text" 
+               class="form-control" 
+               [(ngModel)]="card.cardName" 
+               name="cardName"
+               placeholder="e.g., Amazon ICICI, SBI Card"
+               required>
+      </div>
+
+      <!-- Card Number -->
+      <div class="mb-3">
+        <label class="form-label">Card Number *</label>
+        <input type="text" 
+               class="form-control" 
+               [(ngModel)]="card.cardNumber" 
+               name="cardNumber"
+               placeholder="1234-5678-9012-3456"
+               maxlength="19"
+               required>
+      </div>
+
+      <!-- Expiry & CVV -->
+      <div class="row mb-3">
+        <div class="col-md-6">
+          <label class="form-label">Expiry Date (MM/YY) *</label>
+          <input type="text" 
+                 class="form-control" 
+                 [(ngModel)]="card.expiryDate" 
+                 name="expiryDate"
+                 placeholder="MM/YY"
+                 maxlength="5"
+                 required>
+        </div>
+        <div class="col-md-6">
+          <label class="form-label">CVV *</label>
+          <input type="password" 
+                 class="form-control" 
+                 [(ngModel)]="card.cvv" 
+                 name="cvv"
+                 placeholder="123"
+                 maxlength="4"
+                 required>
+        </div>
+      </div>
+
+      <!-- Owner Details -->
+      <div class="row mb-3">
+        <div class="col-md-6">
+          <label class="form-label">Owner Name *</label>
+          <input type="text" 
+                 class="form-control" 
+                 [(ngModel)]="card.ownerName" 
+                 name="ownerName"
+                 placeholder="Card holder's name"
+                 required>
+        </div>
+        <div class="col-md-6">
+          <label class="form-label">Owner Phone (for WhatsApp)</label>
+          <div class="input-group">
+            <input type="tel" 
+                   class="form-control" 
+                   [(ngModel)]="card.ownerPhone" 
+                   name="ownerPhone"
+                   placeholder="9876543210">
+            <button type="button" 
+                    class="btn btn-outline-success"
+                    (click)="generateWhatsAppLink()"
+                    title="Generate WhatsApp Link"
+                    aria-label="Generate WhatsApp Link">
+              <i class="fab fa-whatsapp"></i>
+              <span class="visually-hidden">Generate WhatsApp Link</span>
+            </button>
+          </div>
+          <small class="text-muted">Click WhatsApp icon to generate approval link</small>
+        </div>
+      </div>
+
+      <!-- Category -->
+      <div class="mb-3">
+        <label class="form-label" for="category">Category *</label>
+        <select id="category"
+                class="form-select" 
+                [(ngModel)]="card.category" 
+                name="category"
+                title="Select card category"
+                required>
+          <option value="">Select Category</option>
+          <option *ngFor="let cat of categories" [value]="cat">
+            {{cat}}
+          </option>
+        </select>
+      </div>
+
+      <!-- Generated WhatsApp Link -->
+      <div *ngIf="card.whatsappLink" class="mb-3">
+        <label class="form-label">WhatsApp Approval Link</label>
+        <div class="input-group">
+          <input type="text" 
+                 class="form-control" 
+                 [value]="card.whatsappLink"
+                 readonly
+                 placeholder="WhatsApp approval link"
+                 title="WhatsApp approval link">
+          <a [href]="card.whatsappLink" 
+             class="btn btn-success"
+             target="_blank"
+             title="Open WhatsApp Approval Link"
+             aria-label="Open WhatsApp Approval Link">
+            <i class="fab fa-whatsapp me-1"></i> Open
+          </a>
+        </div>
+      </div>
+
+      <!-- Submit Button -->
+      <button type="submit" class="btn btn-primary w-100">
+        <i class="fas fa-save me-2"></i> Add Card to Pool
+      </button>
+
+    </form>
+  </div>
+</div>
